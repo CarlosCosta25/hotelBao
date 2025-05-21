@@ -37,5 +37,15 @@ public class ClientResource {
         return ResponseEntity.created(uri).body(clientService.insert(dto));
     }
 
+    @PutMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<ClientDTO>updateClient(@PathVariable Long id, @RequestBody ClientDTO dto){
+        return ResponseEntity.ok(clientService.update(id,dto));
+    }
+
+    @DeleteMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<ClientDTO>deleteClient(@PathVariable long id){
+        return ResponseEntity.ok(clientService.delete(id));
+    }
+
 
 }
