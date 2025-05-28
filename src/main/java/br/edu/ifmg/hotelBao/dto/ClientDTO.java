@@ -1,13 +1,36 @@
 package br.edu.ifmg.hotelBao.dto;
 
 import br.edu.ifmg.hotelBao.entitie.Client;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientDTO {
+    @JsonView({View.publicView.class, View.privateView.class})
     private Long id;
+    @JsonView({View.publicView.class, View.privateView.class})
     private String name;
+    @JsonView({View.publicView.class, View.privateView.class})
     private String email;
+    @JsonView({View.publicView.class, View.privateView.class})
     private String phone;
+    @JsonView(View.privateView.class)
+    private String password;
+    @JsonView(View.privateView.class)
+    private String login;
 
+    public ClientDTO(Client client) {
+        this.id = client.getId();
+        this.name = client.getName();
+        this.email = client.getEmail();
+        this.phone = client.getPhone();
+        this.password = client.getPassword();
+        this.login = client.getLogin();
+    }
+    /*
     public ClientDTO() {
     }
 
@@ -18,12 +41,7 @@ public class ClientDTO {
         this.phone = phone;
     }
 
-    public ClientDTO(Client client) {
-        this.id = client.getId();
-        this.name = client.getName();
-        this.email = client.getEmail();
-        this.phone = client.getPhone();
-    }
+
     public Long getId() {
         return id;
     }
@@ -54,5 +72,5 @@ public class ClientDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
+    }*/
 }
