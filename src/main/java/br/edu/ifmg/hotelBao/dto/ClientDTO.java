@@ -2,33 +2,34 @@ package br.edu.ifmg.hotelBao.dto;
 
 import br.edu.ifmg.hotelBao.entitie.Client;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientDTO {
-    @JsonView({View.publicView.class, View.privateView.class})
+public class ClientDTO extends RepresentationModel<ClientDTO> {
+
     private Long id;
-    @JsonView({View.publicView.class, View.privateView.class})
+    @NotBlank(message = "Nome não pode ser vazio")
+    @Size(max = 50, message = "Nome não pode ter mais de 50 caracteres")
+    @Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]+$", message = "Nome deve conter apenas letras e espaços")
     private String name;
-    @JsonView({View.publicView.class, View.privateView.class})
+   @Email
+   @NotBlank(message = "Email não pode ser vazio")
     private String email;
-    @JsonView({View.publicView.class, View.privateView.class})
     private String phone;
-    @JsonView(View.privateView.class)
-    private String password;
-    @JsonView(View.privateView.class)
-    private String login;
+
 
     public ClientDTO(Client client) {
         this.id = client.getId();
         this.name = client.getName();
         this.email = client.getEmail();
         this.phone = client.getPhone();
-        this.password = client.getPassword();
-        this.login = client.getLogin();
     }
     /*
     public ClientDTO() {

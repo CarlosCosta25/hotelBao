@@ -1,11 +1,11 @@
 package br.edu.ifmg.hotelBao.resources;
 
 import br.edu.ifmg.hotelBao.dto.ClientDTO;
-import br.edu.ifmg.hotelBao.dto.View;
-import com.fasterxml.jackson.annotation.JsonView;
+import br.edu.ifmg.hotelBao.dto.ClientInsetDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import br.edu.ifmg.hotelBao.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +33,13 @@ public class ClientResource {
             }
     )
     @GetMapping(produces = "application/json")
-    @JsonView(View.publicView.class)
+
     public ResponseEntity<Page<ClientDTO>> getAll(Pageable pageable) {
-        Page<ClientDTO> clients = clientService.findAll(pageable);
-        return ResponseEntity.ok(clients);
+       // Page<ClientDTO> clients = clientService.findAll(pageable);
+        return ResponseEntity.ok(clientService.findAll(pageable));
     }
+
+
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(
             description ="Get a client",
@@ -47,7 +49,7 @@ public class ClientResource {
                     @ApiResponse(description = "Not Found", responseCode = "404")
             }
     )
-    @JsonView(View.publicView.class)
+
     public ResponseEntity<ClientDTO>getById(@PathVariable long id){
         return ResponseEntity.ok(clientService.findById(id));
     }
@@ -63,8 +65,8 @@ public class ClientResource {
                     @ApiResponse(description = "Forbbiden", responseCode = "403")
             }
     )
-    @JsonView(View.privateView.class)
-    public ResponseEntity<ClientDTO>insertClient(@RequestBody ClientDTO dto){
+
+    public ResponseEntity<ClientDTO>insert(@Valid @RequestBody ClientInsetDTO dto){
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(dto.getId())
@@ -84,8 +86,8 @@ public class ClientResource {
                     @ApiResponse(description = "Not Found", responseCode = "404")
             }
     )
-    @JsonView(View.publicView.class)
-    public ResponseEntity<ClientDTO>updateClient(@PathVariable Long id, @RequestBody ClientDTO dto){
+
+    public ResponseEntity<ClientDTO>update( @PathVariable Long id,@Valid @RequestBody ClientDTO dto){
         return ResponseEntity.ok(clientService.update(id,dto));
     }
 
@@ -101,8 +103,8 @@ public class ClientResource {
                     @ApiResponse(description = "Not Found", responseCode = "404"),
             }
     )
-    @JsonView(View.publicView.class)
-    public ResponseEntity<ClientDTO>deleteClient(@PathVariable long id){
+
+    public ResponseEntity<ClientDTO>delete(@PathVariable long id){
         return ResponseEntity.ok(clientService.delete(id));
     }
 
