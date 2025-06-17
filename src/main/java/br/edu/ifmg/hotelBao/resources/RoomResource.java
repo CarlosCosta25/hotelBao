@@ -5,6 +5,7 @@ import br.edu.ifmg.hotelBao.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,10 +59,11 @@ public class RoomResource {
                     @ApiResponse(description = "Created", responseCode = "201"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
                     @ApiResponse(description = "Unauthorized", responseCode = "401"),
-                    @ApiResponse(description = "Forbbiden", responseCode = "403")
+                    @ApiResponse(description = "Forbbiden", responseCode = "403"),
+                    @ApiResponse(description = "Unprocessable Entity", responseCode = "422")
             }
     )
-    public ResponseEntity<RoomDTO>insert( @RequestBody RoomDTO dto){
+    public ResponseEntity<RoomDTO>insert(@Valid @RequestBody RoomDTO dto){
         RoomDTO result = roomService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -78,11 +80,12 @@ public class RoomResource {
                     @ApiResponse(description = "Not Found", responseCode = "404"),
                     @ApiResponse(description = "Unauthorized", responseCode = "401"),
                     @ApiResponse(description = "Forbbiden", responseCode = "403"),
-                    @ApiResponse(description = "Not Found", responseCode = "404")
+                    @ApiResponse(description = "Not Found", responseCode = "404"),
+                    @ApiResponse(description = "Unprocessable Entity", responseCode = "422")
             }
     )
     @PutMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<RoomDTO>update(@PathVariable Long id,@RequestBody RoomDTO dto){
+    public ResponseEntity<RoomDTO>update(@PathVariable Long id,@Valid @RequestBody RoomDTO dto){
         return ResponseEntity.ok().body(roomService.update(id, dto));
     }
 

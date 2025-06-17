@@ -62,7 +62,8 @@ public class ClientResource {
                     @ApiResponse(description = "Created", responseCode = "201"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
                     @ApiResponse(description = "Unauthorized", responseCode = "401"),
-                    @ApiResponse(description = "Forbbiden", responseCode = "403")
+                    @ApiResponse(description = "Forbbiden", responseCode = "403"),
+                    @ApiResponse(description = "Unprocessable Entity", responseCode = "422")
             }
     )
 
@@ -83,7 +84,8 @@ public class ClientResource {
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
                     @ApiResponse(description = "Unauthorized", responseCode = "401"),
                     @ApiResponse(description = "Forbbiden", responseCode = "403"),
-                    @ApiResponse(description = "Not Found", responseCode = "404")
+                    @ApiResponse(description = "Not Found", responseCode = "404"),
+                    @ApiResponse(description = "Unprocessable Entity", responseCode = "422")
             }
     )
 

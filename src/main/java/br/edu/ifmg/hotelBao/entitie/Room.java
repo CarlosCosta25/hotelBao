@@ -2,7 +2,9 @@ package br.edu.ifmg.hotelBao.entitie;
 
 import br.edu.ifmg.hotelBao.dto.RoomDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
@@ -10,13 +12,16 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name ="room")
-public class Room {
+public class Room{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(columnDefinition = "TEXT")
     private String description;
+    @Column(nullable = false)
     private double price;
     private String imageUrl;
 
@@ -26,14 +31,6 @@ public class Room {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 
-    public Room(long id, String description, double price, String imageUrl) {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
-    public Room() {
-    }
     public Room(Room room) {
         this.id = room.getId();
         this.description = room.getDescription();
