@@ -70,26 +70,16 @@ public class ClientService {
     public ClientDTO update(long id, ClientDTO dto) {
         try {
             Client client = clientRepository.getReferenceById(id);
+            // atualiza apenas os campos que podem ser mudados
+            client.setLogin(dto.getName());
+            client.setName(dto.getName());
+            client.setEmail(dto.getEmail());
+            client.setPhone(dto.getPhone());
+            // senha não é atualizáveis aqui
+            Client saved = clientRepository.save(client);
 
-            return new ClientDTO(
-                    clientRepository.
-                            save(
-                                    new Client(
-                                            client.getId(),
-                                            dto.getName(),
-                                            dto.getEmail(),
-                                            client.getLogin(),
-                                            client.getPassword(),
-                                            dto.getPhone(),
-                                            client.getCreatedAt(),
-                                            client.getUpdatedAt()
-                                    )
-                            )
-            )
-                    .add(linkTo(methodOn(ClientResource.class).getById(client.getId())).withRel("find a client"))
-                    .add(linkTo(methodOn(ClientResource.class).getAll(null)).withRel("All client"))
-                    .add(linkTo(methodOn(ClientResource.class).delete(client.getId())).withRel("Delete client"));
-
+            return new ClientDTO(saved)
+                    .add( /* seus links HATEOAS */ );
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoud("Cliente com o id: " + id + " não existe");
         }
