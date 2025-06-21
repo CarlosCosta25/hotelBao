@@ -1,11 +1,12 @@
 package br.edu.ifmg.hotelBao.resources;
 
 import br.edu.ifmg.hotelBao.dto.ClientDTO;
-import br.edu.ifmg.hotelBao.dto.ClientInsetDTO;
+import br.edu.ifmg.hotelBao.dto.ClientInsertDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import br.edu.ifmg.hotelBao.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class ClientResource {
             }
     )
     @GetMapping(produces = "application/json")
-
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Page<ClientDTO>> getAll(Pageable pageable) {
-       // Page<ClientDTO> clients = clientService.findAll(pageable);
+        // Page<ClientDTO> clients = clientService.findAll(pageable);
         return ResponseEntity.ok(clientService.findAll(pageable));
     }
 
@@ -67,7 +68,7 @@ public class ClientResource {
             }
     )
 
-    public ResponseEntity<ClientDTO>insert(@Valid @RequestBody ClientInsetDTO dto){
+    public ResponseEntity<ClientDTO>insert(@Valid @RequestBody ClientInsertDTO dto){
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(dto.getId())
