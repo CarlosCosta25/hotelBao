@@ -8,9 +8,6 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,15 +23,13 @@ public class ClientDTO extends RepresentationModel<ClientDTO> {
    @NotBlank(message = "Email não pode ser vazio")
     private String email;
     private String phone;
-    private Set<RoleDTO> roles = new HashSet<>();
+
 
     public ClientDTO(Client client) {
         this.id = client.getId();
         this.name = client.getName();
         this.email = client.getEmail();
         this.phone = client.getPhone();
-
-        client.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
     }
     /*
     public ClientDTO() {

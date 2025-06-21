@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @TableGenerator(name = "client")
@@ -40,25 +38,7 @@ public class Client {
     private Instant updatedAt;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "client_role",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
 
-
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = Instant.now();
-        // sempre atribuir perfil CLIENT por padrão ao criar
-        if (roles.isEmpty()) {
-            // assumindo que Role.CLIENT está presente no banco
-            roles.add(new Role(1L, "CLIENT"));
-        }
-    }
 
     public Client(ClientDTO clientDTO) {
         this.id = clientDTO.getId();
@@ -67,10 +47,7 @@ public class Client {
         this.phone = clientDTO.getPhone();
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = Instant.now();
-    }
+
 
     @Override
     public int hashCode() {
