@@ -29,6 +29,9 @@ public class ClientDTO extends RepresentationModel<ClientDTO> {
     @NotBlank(message = "Username não pode ser vazio")
     private String login;
 
+
+    //private String password;
+    //Apenas caso queira testar a senha
     private Set<RoleDTO> roles = new HashSet<>();
 
     public ClientDTO(Long id, String name, String email, String phone, String login) {
@@ -45,6 +48,7 @@ public class ClientDTO extends RepresentationModel<ClientDTO> {
         this.email = client.getEmail();
         this.phone = client.getPhone();
         this.login = client.getLogin();
+        //this.password = client.getPassword();
         client.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
     }
 
