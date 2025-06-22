@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,8 +36,10 @@ public class StayResource {
         return ResponseEntity.ok(stayService.findById(id));
     }
 
+
     @Operation(summary = "Create a new stay", responses = {@ApiResponse(responseCode = "201", description = "Created")})
     @PostMapping(consumes = "application/json", produces = "application/json")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_CLIENT')")
     public ResponseEntity<StayDTO> insert(@Valid @RequestBody StayDTO dto) {
         StayDTO result = stayService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri();

@@ -10,5 +10,7 @@ public class ClientInsertDTO extends ClientDTO{
     @Size(min = 2, max = 64)
     private String password;
 
-
+    public ClientInsertDTO() {
+        super();
+    }
 }

@@ -111,5 +111,23 @@ public class ClientResource {
         return ResponseEntity.ok(clientService.delete(id));
     }
 
+    @PostMapping(value = "/signup", produces = "application/json")
+    @Operation(
+            description = "Sign up a client",
+            summary = "Client self-register",
+            responses = {
+                    @ApiResponse(description = "Created", responseCode = "201"),
+                    @ApiResponse(description = "Bad Request", responseCode = "400")
+            }
+    )
+    public ResponseEntity<ClientDTO> signUp(@Valid @RequestBody ClientInsertDTO dto) {
+        ClientDTO client = clientService.signUp(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(client.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(client);
+    }
+
 
 }

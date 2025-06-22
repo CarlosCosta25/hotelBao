@@ -15,10 +15,10 @@ INSERT INTO stay (check_in, check_out, room_id, client_id) VALUES ('2024-02-10T1
 INSERT INTO stay (check_in, check_out, room_id, client_id) VALUES ('2024-03-05T14:00:00', '2024-03-12T12:00:00', 3, 3);
 
 -- Inserir roles
-INSERT INTO role (id, authority) VALUES (1, 'ROLE_USER');
+INSERT INTO role (id, authority) VALUES (1, 'ROLE_CLIENT');
 INSERT INTO role (id, authority) VALUES (2, 'ROLE_ADMIN');
 
 -- Associar roles aos clientes
-INSERT INTO client_role (client_id, role_id) VALUES (1, 1); -- João Silva -> ROLE_USER
+INSERT INTO client_role (client_id, role_id) VALUES (1, 2); -- João Silva -> ROLE_USER
 INSERT INTO client_role (client_id, role_id) VALUES (2, 1); -- Maria Santos -> ROLE_USER
 INSERT INTO client_role (client_id, role_id) VALUES (3, 2); -- Pedro Oliveira -> ROLE_ADMIN

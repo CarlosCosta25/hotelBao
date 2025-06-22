@@ -9,6 +9,7 @@ import br.edu.ifmg.hotelBao.exceptions.DataBaseException;
 import br.edu.ifmg.hotelBao.exceptions.ResourceNotFoud;
 import br.edu.ifmg.hotelBao.projections.ClientDetailsProjection;
 import br.edu.ifmg.hotelBao.repository.ClientRepository;
+import br.edu.ifmg.hotelBao.repository.RoleRepository;
 import br.edu.ifmg.hotelBao.resources.ClientResource;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,11 @@ public class ClientService implements UserDetailsService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Transactional(readOnly = true)
     public Page<ClientDTO> findAll(Pageable pageable) {
@@ -64,7 +71,9 @@ public class ClientService implements UserDetailsService {
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
         entity.setLogin(dto.getLogin());
-        entity.setPassword(dto.getPassword());
+
+        // Codificar a senha ANTES de salvar
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         Client result = clientRepository.save(entity);
         return new ClientDTO(result)
@@ -130,4 +139,31 @@ public class ClientService implements UserDetailsService {
         }
         return client;
     }
-}
+
+
+    @Transactional
+    public ClientDTO signUp(ClientInsertDTO dto) {
+        Client entity = new Client();
+        copyDtoToEntity(dto, entity);
+
+        //  Busca segura da role padrão
+        Role role = roleRepository.findByAuthority("ROLE_CLIENT");
+
+
+        entity.getRoles().clear();
+        entity.getRoles().add(role);
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        Client saved = clientRepository.save(entity);
+        return new ClientDTO(saved);
+    }
+
+    private void copyDtoToEntity(ClientInsertDTO dto, Client entity) {
+        entity.setName(dto.getName());
+        entity.setEmail(dto.getEmail());
+        entity.setPhone(dto.getPhone());
+        entity.setLogin(dto.getLogin());
+        // A senha é codificada fora, então não codifique aqui
+    }
+
+    }
