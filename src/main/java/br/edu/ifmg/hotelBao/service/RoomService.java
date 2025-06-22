@@ -2,8 +2,8 @@ package br.edu.ifmg.hotelBao.service;
 
 import br.edu.ifmg.hotelBao.dto.RoomDTO;
 import br.edu.ifmg.hotelBao.entitie.Room;
-import br.edu.ifmg.hotelBao.exceptions.DataBaseException;
-import br.edu.ifmg.hotelBao.exceptions.ResourceNotFoud;
+import br.edu.ifmg.hotelBao.service.exceptions.DataBaseException;
+import br.edu.ifmg.hotelBao.service.exceptions.ResourceNotFound;
 import br.edu.ifmg.hotelBao.repository.RoomRepository;
 import br.edu.ifmg.hotelBao.resources.RoomResource;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,7 +35,7 @@ public class RoomService {
     @Transactional(readOnly = true)
     public RoomDTO findById(Long id) {
         Room room = roomRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoud("Room id: " + id + " not found")
+                () -> new ResourceNotFound("Room id: " + id + " not found")
         );
         return new RoomDTO(room).add(
                 linkTo(methodOn(RoomResource.class).getById(id)).withSelfRel())
@@ -65,7 +65,7 @@ public class RoomService {
                     .add(linkTo(methodOn(RoomResource.class).getAll(null)).withRel("All rooms"))
                     .add(linkTo(methodOn(RoomResource.class).delete(entity.getId())).withRel("Delete room"));
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoud("Room id: " + id + " not found");
+            throw new ResourceNotFound("Room id: " + id + " not found");
         }
 
     }
@@ -73,7 +73,7 @@ public class RoomService {
     @Transactional
     public RoomDTO delete(Long id) {
         if (!roomRepository.existsById(id)) {
-            throw new ResourceNotFoud("Room id: " + id + " not found");
+            throw new ResourceNotFound("Room id: " + id + " not found");
         }
         try {
             Room entity = roomRepository.getReferenceById(id);

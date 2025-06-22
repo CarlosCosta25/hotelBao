@@ -1,4 +1,4 @@
-package br.edu.ifmg.hotelBao.exceptions;
+package br.edu.ifmg.hotelBao.service.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

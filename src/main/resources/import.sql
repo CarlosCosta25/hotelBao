@@ -1,5 +1,5 @@
 -- Primeiro inserir os clientes (com password e login obrigatórios)
-INSERT INTO client (name,email,phone,password,login,created_at,updated_at) VALUES ('João Silva','joao@email.com','11999999999', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG','lucas', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);  -- hash de "senha123"
+INSERT INTO client (name,email,phone,password,login,created_at,updated_at) VALUES ('João Silva','lucasgontijo111@gmail.com','11999999999', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG','lucas', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);  -- hash de "senha123"
 
 INSERT INTO client (name,email,phone,password,login,created_at,updated_at) VALUES ('Maria Santos','maria@email.com','11888888888', '$2a$10$AbCdEfGhIjKlMnOpQrStUvWxYz1234567890abcdefghiJklmno', 'maria.santos', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);  -- hash de "senha456"
 

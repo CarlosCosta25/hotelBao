@@ -4,9 +4,8 @@ import br.edu.ifmg.hotelBao.dto.StayDTO;
 import br.edu.ifmg.hotelBao.entitie.Client;
 import br.edu.ifmg.hotelBao.entitie.Room;
 import br.edu.ifmg.hotelBao.entitie.Stay;
-import br.edu.ifmg.hotelBao.exceptions.CheckinException;
-import br.edu.ifmg.hotelBao.exceptions.DataBaseException;
-import br.edu.ifmg.hotelBao.exceptions.ResourceNotFoud;
+import br.edu.ifmg.hotelBao.service.exceptions.CheckinException;
+import br.edu.ifmg.hotelBao.service.exceptions.ResourceNotFound;
 import br.edu.ifmg.hotelBao.repository.ClientRepository;
 import br.edu.ifmg.hotelBao.repository.RoomRepository;
 import br.edu.ifmg.hotelBao.repository.StayRepository;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -43,7 +40,7 @@ public class StayService {
     @Transactional(readOnly = true)
     public StayDTO findById(Long id) {
         Stay stay = stayRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoud("Stay id: " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFound("Stay id: " + id + " not found"));
         return new StayDTO(stay)
                 .add(linkTo(methodOn(StayResource.class).getById(id)).withSelfRel())
                 .add(linkTo(methodOn(StayResource.class).getAll(null)).withRel("Get all stays"));
@@ -96,14 +93,14 @@ public class StayService {
                     .add(linkTo(methodOn(StayResource.class).getById(id)).withSelfRel())
                     .add(linkTo(methodOn(StayResource.class).getAll(null)).withRel("Get all stays"));
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoud("Stay, Client or Room not found");
+            throw new ResourceNotFound("Stay, Client or Room not found");
         }
     }
 
     @Transactional
     public StayDTO delete(Long id) {
         if (!stayRepository.existsById(id))
-            throw new ResourceNotFoud("Stay id: " + id + " not found");
+            throw new ResourceNotFound("Stay id: " + id + " not found");
         Stay stay = stayRepository.getReferenceById(id);
         stayRepository.delete(stay);
         return new StayDTO(stay);

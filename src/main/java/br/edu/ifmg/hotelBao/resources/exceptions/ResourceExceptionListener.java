@@ -1,7 +1,7 @@
 package br.edu.ifmg.hotelBao.resources.exceptions;
 
-import br.edu.ifmg.hotelBao.exceptions.DataBaseException;
-import br.edu.ifmg.hotelBao.exceptions.ResourceNotFoud;
+import br.edu.ifmg.hotelBao.service.exceptions.DataBaseException;
+import br.edu.ifmg.hotelBao.service.exceptions.ResourceNotFound;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +14,8 @@ import java.time.Instant;
 @ControllerAdvice
 public class ResourceExceptionListener {
 
-    @ExceptionHandler(ResourceNotFoud.class)
-    public ResponseEntity<StandartError> resorceNotFound(ResourceNotFoud ex, HttpServletRequest request){
+    @ExceptionHandler(ResourceNotFound.class)
+    public ResponseEntity<StandartError> resorceNotFound(ResourceNotFound ex, HttpServletRequest request){
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new StandartError(

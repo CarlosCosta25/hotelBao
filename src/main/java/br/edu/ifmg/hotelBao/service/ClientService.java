@@ -5,8 +5,8 @@ import br.edu.ifmg.hotelBao.dto.ClientInsertDTO;
 
 import br.edu.ifmg.hotelBao.entitie.Client;
 import br.edu.ifmg.hotelBao.entitie.Role;
-import br.edu.ifmg.hotelBao.exceptions.DataBaseException;
-import br.edu.ifmg.hotelBao.exceptions.ResourceNotFoud;
+import br.edu.ifmg.hotelBao.service.exceptions.DataBaseException;
+import br.edu.ifmg.hotelBao.service.exceptions.ResourceNotFound;
 import br.edu.ifmg.hotelBao.projections.ClientDetailsProjection;
 import br.edu.ifmg.hotelBao.repository.ClientRepository;
 import br.edu.ifmg.hotelBao.repository.RoleRepository;
@@ -15,7 +15,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.Link;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -56,7 +55,7 @@ public class ClientService implements UserDetailsService {
         Optional<Client> obj = clientRepository.findById(id);
         return new ClientDTO(
                 obj.orElseThrow(() ->
-                        new ResourceNotFoud("Client from id: " + id + "not found")
+                        new ResourceNotFound("Client from id: " + id + "not found")
                 )
         )
                 .add(linkTo(methodOn(ClientResource.class).getById(id)).withSelfRel())
@@ -107,7 +106,7 @@ public class ClientService implements UserDetailsService {
                     .add(linkTo(methodOn(ClientResource.class).delete(client.getId())).withRel("Delete client"));
 
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoud("Cliente com o id: " + id + " não existe");
+            throw new ResourceNotFound("Cliente com o id: " + id + " não existe");
         }
     }
 

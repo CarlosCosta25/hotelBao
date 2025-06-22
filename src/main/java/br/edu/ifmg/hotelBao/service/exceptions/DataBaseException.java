@@ -1,4 +1,4 @@
-package br.edu.ifmg.hotelBao.exceptions;
+package br.edu.ifmg.hotelBao.service.exceptions;
 
 public class DataBaseException extends RuntimeException {
     public DataBaseException(String msg){
