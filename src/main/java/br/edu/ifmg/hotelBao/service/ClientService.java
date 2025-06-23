@@ -60,7 +60,8 @@ public class ClientService implements UserDetailsService {
         )
                 .add(linkTo(methodOn(ClientResource.class).getById(id)).withSelfRel())
                 .add(linkTo(methodOn(ClientResource.class).getAll(null)).withRel("Get all clients"))
-                .add(linkTo(methodOn(ClientResource.class).update(id, new ClientDTO(obj.get()))).withRel("Update a client"));
+                .add(linkTo(methodOn(ClientResource.class).update(id, new ClientDTO(obj.get()))).withRel("Update a client"))
+                .add(linkTo(methodOn(ClientResource.class).delete(id)).withRel("Delete a client"));
     }
 
     @Transactional
@@ -78,37 +79,34 @@ public class ClientService implements UserDetailsService {
         return new ClientDTO(result)
                 .add(linkTo(methodOn(ClientResource.class).getById(result.getId())).withRel("Get a client"))
                 .add(linkTo(methodOn(ClientResource.class).getAll(null)).withRel("Get all clients"))
-                .add(linkTo(methodOn(ClientResource.class).update(result.getId(), new ClientDTO(result))).withRel("Update a client"));
+                .add(linkTo(methodOn(ClientResource.class).update(result.getId(), new ClientDTO(result))).withRel("Update a client"))
+                .add(linkTo(methodOn(ClientResource.class).delete(result.getId())).withRel("Delete client"));
+
     }
 
     @Transactional
-    public ClientDTO update(long id, ClientDTO dto) {
+    public ClientDTO update(Long id, ClientDTO dto) {
         try {
-            Client client = clientRepository.getReferenceById(id);
+            // 1) busca a entidade gerenciada
+            Client entity = clientRepository.getReferenceById(id);
 
-            return new ClientDTO(
-                    clientRepository.
-                            save(
-                                    new Client(
-                                            client.getId(),
-                                            dto.getName(),
-                                            dto.getEmail(),
-                                            dto.getPhone(),
-                                            client.getLogin(),
-                                            client.getPassword(),
-                                            client.getCreatedAt(),
-                                            client.getUpdatedAt()
-                                    )
-                            )
-            )
-                    .add(linkTo(methodOn(ClientResource.class).getById(client.getId())).withRel("find a client"))
-                    .add(linkTo(methodOn(ClientResource.class).getAll(null)).withRel("All client"))
-                    .add(linkTo(methodOn(ClientResource.class).delete(client.getId())).withRel("Delete client"));
+            // 2) copia todos os campos mutáveis do DTO para a entidade
+            copyDtoToEntity(dto, entity);
+
+            // 3) salva e atualiza a referência
+            entity = clientRepository.save(entity);
+
+            // 4) monta e retorna o DTO HATEOAS
+            return new ClientDTO(entity)
+                    .add(linkTo(methodOn(ClientResource.class).getById(entity.getId())).withRel("Find client by id"))
+                    .add(linkTo(methodOn(ClientResource.class).getAll(null)).withRel("All clients"))
+                    .add(linkTo(methodOn(ClientResource.class).delete(entity.getId())).withRel("Delete client"));
 
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFound("Cliente com o id: " + id + " não existe");
+            throw new ResourceNotFound("Cliente não encontrado: " + id);
         }
     }
+
 
     @Transactional
     public ClientDTO delete(long id) {
@@ -157,7 +155,7 @@ public class ClientService implements UserDetailsService {
         return new ClientDTO(saved);
     }
 
-    private void copyDtoToEntity(ClientInsertDTO dto, Client entity) {
+    private void copyDtoToEntity(ClientDTO dto, Client entity) {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
@@ -165,4 +163,4 @@ public class ClientService implements UserDetailsService {
         // A senha é codificada fora, então não codifique aqui
     }
 
-    }
+}
