@@ -5,22 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoiceDTO {
-    private String invoiceText;
     private boolean success;
     private String message;
+    private String clientName;
+    private String email;
+    private String phone;
+    private List<StayInfo> stays;
+    private double total;
 
-    public InvoiceDTO(String invoiceText) {
-        this.invoiceText = invoiceText;
-        this.success = true;
-    }
-
-    public InvoiceDTO(String message, boolean success) {
-        this.message = message;
-        this.success = success;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StayInfo {
+        private String description;
+        private double price;
     }
 }
