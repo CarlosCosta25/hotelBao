@@ -10,14 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@Controller
+@RestController
 @RequestMapping(value = "/room")
+
 @Tag(name = "Room", description = "Controller/Resource for rooms")
 public class RoomResource {
 
@@ -32,6 +34,7 @@ public class RoomResource {
             }
     )
     @GetMapping(produces = "application/json")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_CLIENT')")
     public ResponseEntity<Page<RoomDTO>>getAll(Pageable pageable){
         return ResponseEntity.ok().body(roomService.findAll(pageable));
     }
@@ -46,6 +49,7 @@ public class RoomResource {
                     @ApiResponse(description = "Not Found", responseCode = "404")
             }
     )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO>getById(@PathVariable Long id){
         return ResponseEntity.ok().body(roomService.findById(id));
     }
@@ -63,6 +67,7 @@ public class RoomResource {
                     @ApiResponse(description = "Unprocessable Entity", responseCode = "422")
             }
     )
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO>insert(@Valid @RequestBody RoomDTO dto){
         RoomDTO result = roomService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -85,6 +90,7 @@ public class RoomResource {
             }
     )
     @PutMapping(value = "/{id}", produces = "application/json")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO>update(@PathVariable Long id,@Valid @RequestBody RoomDTO dto){
         return ResponseEntity.ok().body(roomService.update(id, dto));
     }
@@ -101,6 +107,7 @@ public class RoomResource {
             }
     )
     @DeleteMapping(value = "/{id}", produces = "application/json")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO>delete(@PathVariable Long id){
         return ResponseEntity.ok().body(roomService.delete(id));
     }

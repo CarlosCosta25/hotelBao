@@ -26,6 +26,7 @@ public class ReportResource {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Not Found")
     })
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
     public ResponseEntity<ReportDTO> getHighestValueStayByClient(@PathVariable Long clientId) {
         ReportDTO report = reportService.getHighestValueStayByClient(clientId);
 
@@ -46,6 +47,7 @@ public class ReportResource {
     }
 
     @GetMapping("/client/{clientId}/lowest-stay")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CLIENT')")
     public ResponseEntity<ReportDTO> getLowestValueStayByClient(@PathVariable Long clientId) {
         ReportDTO report = reportService.getLowestValueStayByClient(clientId);
         if ("O cliente informado não existe.".equals(report.getMessage())) {
@@ -61,6 +63,7 @@ public class ReportResource {
     }
 
     @GetMapping("/client/{clientId}/total-value")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CLIENT')")
     public ResponseEntity<ReportDTO> getTotalStayValueByClient(@PathVariable Long clientId) {
         ReportDTO report = reportService.getTotalStayValueByClient(clientId);
         if ("O cliente informado não existe.".equals(report.getMessage())) {

@@ -3,6 +3,7 @@ package br.edu.ifmg.hotelBao.service;
 import br.edu.ifmg.hotelBao.dto.ClientDTO;
 import br.edu.ifmg.hotelBao.dto.ClientInsertDTO;
 
+import br.edu.ifmg.hotelBao.dto.RoleDTO;
 import br.edu.ifmg.hotelBao.entitie.Client;
 import br.edu.ifmg.hotelBao.entitie.Role;
 import br.edu.ifmg.hotelBao.service.exceptions.DataBaseException;
@@ -67,13 +68,9 @@ public class ClientService implements UserDetailsService {
     @Transactional
     public ClientDTO insert(ClientInsertDTO dto) {
         Client entity = new Client();
-        entity.setName(dto.getName());
-        entity.setEmail(dto.getEmail());
-        entity.setPhone(dto.getPhone());
-        entity.setLogin(dto.getLogin());
-
+        this.copyDtoToEntity(dto, entity);
         // Codificar a senha ANTES de salvar
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity.setPassword(passwordEncoder.encode(dto.getPhone()));
 
         Client result = clientRepository.save(entity);
         return new ClientDTO(result)
@@ -155,12 +152,40 @@ public class ClientService implements UserDetailsService {
         return new ClientDTO(saved);
     }
 
+
+
+    @Transactional(readOnly = true)
+    public Page<ClientDTO> findAllClients(Pageable pageable) {
+        Page<Client> page = clientRepository.findAllClients(pageable);
+        return page.map(client -> new ClientDTO(client)
+                .add(linkTo(methodOn(ClientResource.class).getAllClients(null)).withSelfRel())
+                .add(linkTo(methodOn(ClientResource.class).getClientById(client.getId())).withRel("Get a client"))
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public ClientDTO findClientById(Long id) {
+        Client client = clientRepository.findByIdClient(id)
+                .orElseThrow(() -> new ResourceNotFound("Client with role CLIENT and id " + id + " not found"));
+        return new ClientDTO(client)
+                .add(linkTo(methodOn(ClientResource.class).getClientById(id)).withSelfRel())
+                .add(linkTo(methodOn(ClientResource.class).getAllClients(null)).withRel("Get all clients"));
+    }
+
     private void copyDtoToEntity(ClientDTO dto, Client entity) {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
         entity.setLogin(dto.getLogin());
-        // A senha é codificada fora, então não codifique aqui
+        for (RoleDTO roleDTO : dto.getRoles()) {
+            String authority = roleDTO.getAuthority();
+            Role role = roleRepository.findByAuthority(authority);
+            if (role == null) {
+                throw new IllegalArgumentException("Role inválida: " + authority);
+            }
+            entity.getRoles().add(role);
+        }
+        // A senha é codificadafora, então não codifique aqui
     }
 
 }

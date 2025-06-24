@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/client")
+@RequestMapping(value = "/user")
 @Tag(name = "Client", description = "Controller/Resource for clients")
 public class ClientResource {
 
@@ -34,7 +34,6 @@ public class ClientResource {
             }
     )
     @GetMapping(produces = "application/json")
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Page<ClientDTO>> getAll(Pageable pageable) {
         // Page<ClientDTO> clients = clientService.findAll(pageable);
         return ResponseEntity.ok(clientService.findAll(pageable));
@@ -127,6 +126,16 @@ public class ClientResource {
                 .buildAndExpand(client.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(client);
+    }
+
+    @GetMapping(value = "/clients", produces = "application/json")
+    public ResponseEntity<Page<ClientDTO>> getAllClients(Pageable pageable) {
+        return ResponseEntity.ok(clientService.findAllClients(pageable));
+    }
+
+    @GetMapping(value = "/clients/{id}", produces = "application/json")
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
+        return ResponseEntity.ok(clientService.findClientById(id));
     }
 
 
