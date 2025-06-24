@@ -34,7 +34,6 @@ public class RoomResource {
             }
     )
     @GetMapping(produces = "application/json")
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_CLIENT')")
     public ResponseEntity<Page<RoomDTO>>getAll(Pageable pageable){
         return ResponseEntity.ok().body(roomService.findAll(pageable));
     }
@@ -49,7 +48,7 @@ public class RoomResource {
                     @ApiResponse(description = "Not Found", responseCode = "404")
             }
     )
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
     public ResponseEntity<RoomDTO>getById(@PathVariable Long id){
         return ResponseEntity.ok().body(roomService.findById(id));
     }
@@ -67,7 +66,7 @@ public class RoomResource {
                     @ApiResponse(description = "Unprocessable Entity", responseCode = "422")
             }
     )
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
+
     public ResponseEntity<RoomDTO>insert(@Valid @RequestBody RoomDTO dto){
         RoomDTO result = roomService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -90,7 +89,6 @@ public class RoomResource {
             }
     )
     @PutMapping(value = "/{id}", produces = "application/json")
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO>update(@PathVariable Long id,@Valid @RequestBody RoomDTO dto){
         return ResponseEntity.ok().body(roomService.update(id, dto));
     }
@@ -107,7 +105,6 @@ public class RoomResource {
             }
     )
     @DeleteMapping(value = "/{id}", produces = "application/json")
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO>delete(@PathVariable Long id){
         return ResponseEntity.ok().body(roomService.delete(id));
     }

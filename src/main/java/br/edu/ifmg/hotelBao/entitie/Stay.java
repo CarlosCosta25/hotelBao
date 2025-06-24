@@ -43,13 +43,7 @@ public class Stay {
 
 
 
-    // Construtor a partir de DTO
-    public Stay(StayDTO dto, Function<Long, Client> clientFinder, Function<Long, Room> roomFinder) {
-        this.client   = clientFinder.apply(dto.getClientId());
-        this.room     = roomFinder.apply(dto.getRoomId());
-        this.checkIn  = dto.getCheckIn();
-        this.checkOut = dto.getCheckIn().plus(1, ChronoUnit.DAYS);
-    }
+
 
     public Stay(Client client, Room room, Instant checkIn) {
         this.client = client;

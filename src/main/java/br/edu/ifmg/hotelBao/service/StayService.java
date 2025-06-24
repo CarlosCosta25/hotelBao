@@ -33,8 +33,8 @@ public class StayService {
     public Page<StayDTO> findAll(Pageable pageable) {
         return stayRepository.findAll(pageable)
                 .map(stay -> new StayDTO(stay)
-                        .add(linkTo(methodOn(StayResource.class).getById(stay.getId())).withSelfRel())
-                        .add(linkTo(methodOn(StayResource.class).getAll(null)).withRel("Get all stays")));
+                        .add(linkTo(methodOn(StayResource.class).getAll(null)).withSelfRel())
+                        .add(linkTo(methodOn(StayResource.class).getById(stay.getId())).withRel("Get stay")));
     }
 
     @Transactional(readOnly = true)
@@ -49,8 +49,8 @@ public class StayService {
     @Transactional
     public StayDTO insert(StayDTO dto) {
         // 1) carrega as entidades
-        Client client = clientRepository.getReferenceById(dto.getClientId());
-        Room   room   = roomRepository.getReferenceById(dto.getRoomId());
+        Client client = clientRepository.getReferenceById(dto.getClient().getId());
+        Room   room   = roomRepository.getReferenceById(dto.getRoom().getId());
 
 
         Instant checkIn = dto.getCheckIn();
@@ -73,8 +73,8 @@ public class StayService {
     public StayDTO update(Long id, StayDTO dto) {
         try {
             Stay stay    = stayRepository.getReferenceById(id);
-            Client client = clientRepository.getReferenceById(dto.getClientId());
-            Room room     = roomRepository.getReferenceById(dto.getRoomId());
+            Client client = clientRepository.getReferenceById(dto.getClient().getId());
+            Room room     = roomRepository.getReferenceById(dto.getRoom().getId());
 
             Instant checkIn = dto.getCheckIn();
             Instant checkOut = checkIn.plus(1, ChronoUnit.DAYS);

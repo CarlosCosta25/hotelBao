@@ -1,6 +1,7 @@
 package br.edu.ifmg.hotelBao.dto;
 
 import br.edu.ifmg.hotelBao.entitie.Stay;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.Getter;
@@ -14,14 +15,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 public class StayDTO extends RepresentationModel<StayDTO> {
-    private long id;
-
-    /** Relações por ID no input e output simplificado */
-    @NotNull
-    private Long clientId;
-
-    @NotNull
-    private Long roomId;
+    private Long id;
 
     /** Data/hora de check‑in */
     @NotNull
@@ -30,20 +24,23 @@ public class StayDTO extends RepresentationModel<StayDTO> {
 
     /** Data/hora de check‑out (calculado) */
     private Instant checkOut;
+    /** Relações por ID no input e output simplificado */
+    @Valid
+    @NotNull
+    private ClientDTO client;
+    @Valid
+    @NotNull
+    private RoomDTO room;
+
+
 
     public StayDTO(Stay stay) {
         this.id       = stay.getId();
-        this.clientId = stay.getClient().getId();
-        this.roomId   = stay.getRoom().getId();
+        this.client = new ClientDTO(stay.getClient());
+        this.room   = new RoomDTO(stay.getRoom());
         this.checkIn  = stay.getCheckIn();
         this.checkOut = stay.getCheckOut();
     }
 
-    public StayDTO(long id, Long clientId, Long roomId, Instant checkIn, Instant checkOut) {
-        this.id       = id;
-        this.clientId = clientId;
-        this.roomId   = roomId;
-        this.checkIn  = checkIn;
-        this.checkOut = checkOut;
-    }
+
 }
