@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -104,5 +106,16 @@ public class StayService {
         Stay stay = stayRepository.getReferenceById(id);
         stayRepository.delete(stay);
         return new StayDTO(stay);
+    }
+
+    @Transactional(readOnly = true)
+    public List<StayDTO> findByClientId(Long clientId) {
+        if (!clientRepository.existsById(clientId)) {
+            throw new ResourceNotFound("Client id: " + clientId + " not found");
+        }
+        List<Stay> list = stayRepository.findByClientId(clientId);
+        return list.stream()
+                .map(stay -> new StayDTO(stay))
+                .collect(Collectors.toList());
     }
 }

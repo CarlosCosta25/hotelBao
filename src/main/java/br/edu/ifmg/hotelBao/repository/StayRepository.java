@@ -2,6 +2,8 @@ package br.edu.ifmg.hotelBao.repository;
 
 import br.edu.ifmg.hotelBao.entitie.Room;
 import br.edu.ifmg.hotelBao.entitie.Stay;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,4 +42,5 @@ public interface StayRepository extends JpaRepository<Stay, Long> {
 
     @Query("SELECT s FROM Stay s WHERE s.client.id = :clientId")
     List<Stay> findByClientId(@Param("clientId") Long clientId);
+
 }
