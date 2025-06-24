@@ -27,25 +27,23 @@ public class InvoiceService {
     @Transactional(readOnly = true)
     public InvoiceDTO generateInvoice(Long clientId) {
         Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ResourceNotFound("Client id " + clientId + " not found"));
+                .orElseThrow(() -> new ResourceNotFound("Cliente com id " + clientId + " não encontrado"));
 
         List<Stay> stays = stayRepository.findByClientId(clientId);
         if (stays.isEmpty()) {
-            throw new IllegalArgumentException("No stays found for client");
+            throw new ResourceNotFound("Não há estadias para o cliente com id " + clientId);
         }
 
         boolean incomplete = stays.stream()
                 .anyMatch(s -> s.getRoom().getDescription() == null || s.getRoom().getPrice() <= 0);
         if (incomplete) {
-            throw new IllegalArgumentException("Incomplete stay data detected");
+            throw new ResourceNotFound("Existem estadias com dados incompletos para o cliente com id " + clientId);
         }
 
-        // Convert to DTOs
         List<StayDTO> stayDTOs = stays.stream()
                 .map(StayDTO::new)
                 .collect(Collectors.toList());
 
-        // Calculate total using room price from DTO
         double total = stayDTOs.stream()
                 .mapToDouble(dto -> dto.getRoom().getPrice())
                 .sum();
