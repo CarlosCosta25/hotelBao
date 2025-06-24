@@ -15,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stay")
@@ -104,6 +106,47 @@ public class StayResource {
     public ResponseEntity<List<StayDTO>> getByClient(@PathVariable Long clientId) {
         List<StayDTO> list = stayService.findByClientId(clientId);
         return ResponseEntity.ok(list);
+    }
+
+
+    @Operation(summary = "Get total value of all stays for a client", responses = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Client Not Found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    @GetMapping(value = "/client/{clientId}/total", produces = "application/json")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
+    public ResponseEntity<Map<String, BigDecimal>> getTotalValueByClient(@PathVariable Long clientId) {
+        BigDecimal totalValue = stayService.getTotalValueByClient(clientId);
+        Map<String, BigDecimal> response = Map.of("total_estadia", totalValue);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Get highest value stay for a client", responses = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Client Not Found or No Stays Found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    @GetMapping(value = "/client/{clientId}/highest", produces = "application/json")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
+    public ResponseEntity<StayDTO> getHighestValueStayByClient(@PathVariable Long clientId) {
+        StayDTO highestValueStay = stayService.getHighestValueStayByClient(clientId);
+        return ResponseEntity.ok(highestValueStay);
+    }
+
+    @Operation(summary = "Get lowest value stay for a client", responses = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Client Not Found or No Stays Found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    @GetMapping(value = "/client/{clientId}/lowest", produces = "application/json")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
+    public ResponseEntity<StayDTO> getLowestValueStayByClient(@PathVariable Long clientId) {
+        StayDTO lowestValueStay = stayService.getLowestValueStayByClient(clientId);
+        return ResponseEntity.ok(lowestValueStay);
     }
 
 }

@@ -13,7 +13,7 @@ INSERT INTO room (description, price, image_url) VALUES ('Suíte 103 - Ampla e e
 INSERT INTO stay (check_in, check_out, room_id, client_id) VALUES ('2024-01-15T14:00:00', '2024-01-20T12:00:00', 1, 1);
 INSERT INTO stay (check_in, check_out, room_id, client_id) VALUES ('2024-02-10T14:00:00', '2024-02-15T12:00:00', 2, 2);
 
-INSERT INTO stay (client_id, room_id, check_in, check_out) VALUES ( 1, 1, '2024-01-15 14:00:00', '2024-01-16 12:00:00');
+INSERT INTO stay (client_id, room_id, check_in, check_out) VALUES ( 1, 1, '2024-01-20 14:00:00', '2024-01-21 12:00:00');
 INSERT INTO stay (client_id, room_id, check_in, check_out) VALUES ( 1, 2, '2024-02-20 14:00:00', '2024-02-21 12:00:00');
 INSERT INTO stay (client_id, room_id, check_in, check_out) VALUES (1, 3, '2024-03-10 14:00:00', '2024-03-11 12:00:00');
 

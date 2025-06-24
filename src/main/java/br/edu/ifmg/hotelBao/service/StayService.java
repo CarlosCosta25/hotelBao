@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -117,5 +118,45 @@ public class StayService {
         return list.stream()
                 .map(stay -> new StayDTO(stay))
                 .collect(Collectors.toList());
+    }
+
+
+    @Transactional(readOnly = true)
+    public BigDecimal getTotalValueByClient(Long clientId) {
+        if (!clientRepository.existsById(clientId)) {
+            throw new ResourceNotFound("Client id: " + clientId + " not found");
+        }
+        BigDecimal totalValue = stayRepository.findTotalValueByClient(clientId);
+        return totalValue != null ? totalValue : BigDecimal.ZERO;
+    }
+
+
+    @Transactional(readOnly = true)
+    public StayDTO getHighestValueStayByClient(Long clientId) {
+        if (!clientRepository.existsById(clientId)) {
+            throw new ResourceNotFound("Client id: " + clientId + " not found");
+        }
+        Stay highestValueStay = stayRepository.findHighestValueStayByClient(clientId);
+        if (highestValueStay == null) {
+            throw new ResourceNotFound("No stays found for client id: " + clientId);
+        }
+        return new StayDTO(highestValueStay)
+                .add(linkTo(methodOn(StayResource.class).getById(highestValueStay.getId())).withRel("Get stay"))
+                .add(linkTo(methodOn(StayResource.class).getByClient(clientId)).withRel("Get all client stays"));
+    }
+
+
+    @Transactional(readOnly = true)
+    public StayDTO getLowestValueStayByClient(Long clientId) {
+        if (!clientRepository.existsById(clientId)) {
+            throw new ResourceNotFound("Client id: " + clientId + " not found");
+        }
+        Stay lowestValueStay = stayRepository.findLowestValueStayByClient(clientId);
+        if (lowestValueStay == null) {
+            throw new ResourceNotFound("No stays found for client id: " + clientId);
+        }
+        return new StayDTO(lowestValueStay)
+                .add(linkTo(methodOn(StayResource.class).getById(lowestValueStay.getId())).withRel("Get stay"))
+                .add(linkTo(methodOn(StayResource.class).getByClient(clientId)).withRel("Get all client stays"));
     }
 }
