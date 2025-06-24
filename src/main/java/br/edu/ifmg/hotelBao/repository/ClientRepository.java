@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findByEmail(String email);
-    Client findByEmailAndPassword(String email, String password);
+
 
     @Query(nativeQuery = true, value = """
         SELECT u.login as username,

@@ -24,7 +24,7 @@ public class StayDTO extends RepresentationModel<StayDTO> {
 
     /** Data/hora de check‑out (calculado) */
     private Instant checkOut;
-    /** Relações por ID no input e output simplificado */
+
     @Valid
     @NotNull
     private ClientDTO client;

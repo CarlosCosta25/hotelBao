@@ -27,11 +27,14 @@ public class StayResource {
 
     @Autowired private StayService stayService;
 
-    @Operation(summary = "Get all stays", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description ="Buscar todas estadias",
+            summary = "Buscar todas estadias",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+            })
     @GetMapping(produces = "application/json")
     @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Page<StayDTO>> getAll(Pageable pageable) {
@@ -40,12 +43,14 @@ public class StayResource {
 
 
 
-    @Operation(summary = "Get a stay", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description ="Buscar estadia por ID",
+            summary = "Buscar estadia por I", responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "404", description = "Not Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+            })
     @GetMapping(value = "/{id}", produces = "application/json")
     @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<StayDTO> getById(@PathVariable Long id) {
@@ -53,54 +58,66 @@ public class StayResource {
     }
 
 
-    @Operation(summary = "Create a new stay", responses = {
-            @ApiResponse(responseCode = "201", description = "Created"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
-    })
+    @Operation(
+            description ="Criar nova estadia",
+            summary = "Criar nova estadia",
+            responses = {
+                @ApiResponse(responseCode = "201", description = "Created"),
+                @ApiResponse(responseCode = "400", description = "Bad Request"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden"),
+                @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
+            })
     @PostMapping(consumes = "application/json", produces = "application/json")
-    @PreAuthorize("hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
     public ResponseEntity<StayDTO> insert(@Valid @RequestBody StayDTO dto) {
         StayDTO result = stayService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri();
         return ResponseEntity.created(uri).body(result);
     }
 
-    @Operation(summary = "Update a stay", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
-    })
+    @Operation(
+            description ="Atualizar estadia pelo ID",
+            summary = "Atualizar estadia pelo ID",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "400", description = "Bad Request"),
+                @ApiResponse(responseCode = "404", description = "Not Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden"),
+                @ApiResponse(responseCode = "422", description = "Unprocessable Entity")
+            })
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<StayDTO> update(@PathVariable Long id, @Valid @RequestBody StayDTO dto) {
         return ResponseEntity.ok(stayService.update(id, dto));
     }
 
-    @Operation(summary = "Delete a stay", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description ="Deletar estadia pelo ID",
+            summary = "Deletar estadia pelo ID",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "400", description = "Bad Request"),
+                @ApiResponse(responseCode = "404", description = "Not Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+            })
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<StayDTO> delete(@PathVariable Long id) {
         return ResponseEntity.ok(stayService.delete(id));
     }
 
-    @Operation(summary = "Get all stays of a client", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Client Not Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description ="Buscar todas estadia de um determinado cliente pelo ID",
+            summary = "Buscar todas estadia de um determinado cliente pelo ID",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "404", description = "Client Not Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+            })
     @GetMapping(value = "/client/{clientId}", produces = "application/json")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
     public ResponseEntity<List<StayDTO>> getByClient(@PathVariable Long clientId) {
@@ -109,12 +126,15 @@ public class StayResource {
     }
 
 
-    @Operation(summary = "Get total value of all stays for a client", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Client Not Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description = "Calcular o valor total das estadias do cliente",
+            summary = "Calcular o valor total das estadias do cliente",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "404", description = "Client Not Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+            })
     @GetMapping(value = "/client/{clientId}/total", produces = "application/json")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
     public ResponseEntity<Map<String, BigDecimal>> getTotalValueByClient(@PathVariable Long clientId) {
@@ -123,12 +143,15 @@ public class StayResource {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Get highest value stay for a client", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Client Not Found or No Stays Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description = "Buscar estadia com maior valor do cliente pelo ID",
+            summary = "Buscar estadia com maior valor do cliente pelo ID",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "404", description = "Client Not Found or No Stays Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+        })
     @GetMapping(value = "/client/{clientId}/highest", produces = "application/json")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
     public ResponseEntity<StayDTO> getHighestValueStayByClient(@PathVariable Long clientId) {
@@ -136,12 +159,15 @@ public class StayResource {
         return ResponseEntity.ok(highestValueStay);
     }
 
-    @Operation(summary = "Get lowest value stay for a client", responses = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "404", description = "Client Not Found or No Stays Found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden")
-    })
+    @Operation(
+            description = "Buscar estadia com maior valor do cliente pelo ID",
+            summary = "Buscar estadia com maior valor do cliente pelo ID",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "OK"),
+                @ApiResponse(responseCode = "404", description = "Client Not Found or No Stays Found"),
+                @ApiResponse(responseCode = "401", description = "Unauthorized"),
+                @ApiResponse(responseCode = "403", description = "Forbidden")
+        })
     @GetMapping(value = "/client/{clientId}/lowest", produces = "application/json")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENT')")
     public ResponseEntity<StayDTO> getLowestValueStayByClient(@PathVariable Long clientId) {

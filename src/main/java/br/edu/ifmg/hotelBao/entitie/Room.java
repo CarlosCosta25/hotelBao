@@ -31,16 +31,5 @@ public class Room{
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 
-    public Room(Room room) {
-        this.id = room.getId();
-        this.description = room.getDescription();
-        this.price = room.getPrice();
-        this.imageUrl = room.getImageUrl();
-    }
-    public Room(RoomDTO dto){
-        this.id = dto.getId();
-        this.description = dto.getDescription();
-        this.price = dto.getPrice();
-        this.imageUrl = dto.getImageUrl();
-    }
+
 }

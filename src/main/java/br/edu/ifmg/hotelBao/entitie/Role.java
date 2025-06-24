@@ -4,6 +4,7 @@ package br.edu.ifmg.hotelBao.entitie;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.service.annotation.GetExchange;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "role")
 public class Role implements GrantedAuthority {
     @Id
@@ -38,11 +40,5 @@ public class Role implements GrantedAuthority {
         return Objects.hashCode(id);
     }
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", authority='" + authority + '\'' +
-                '}';
-    }
+
 }

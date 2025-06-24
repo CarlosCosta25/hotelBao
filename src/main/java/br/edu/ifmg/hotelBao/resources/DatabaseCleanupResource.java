@@ -21,8 +21,8 @@ public class DatabaseCleanupResource {
     private DatabaseCleanupService cleanupService;
 
     @Operation(
-            description = "Clean all data from database",
-            summary = "Delete all records from all tables (irreversible)",
+            description = "Limpar todo o banco de dados",
+            summary = "Deleta todos os dados do banco de dados (Irreversível)",
             responses = {
                     @ApiResponse(description = "204 No Content – cleaned", responseCode = "204"),
                     @ApiResponse(description = "Unauthorized", responseCode = "401"),

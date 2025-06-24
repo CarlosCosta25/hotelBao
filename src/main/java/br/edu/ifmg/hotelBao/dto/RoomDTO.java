@@ -24,11 +24,7 @@ public class RoomDTO extends RepresentationModel<RoomDTO> {
     }
     public RoomDTO() {
     }
-    public RoomDTO(long id, String description, double price, String imageUrl) {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
+
+
 
 }

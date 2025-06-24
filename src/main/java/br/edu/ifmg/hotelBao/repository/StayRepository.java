@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 public interface StayRepository extends JpaRepository<Stay, Long> {
-
+    // Consulta para verificar se possui estadia naquela data e hora
     @Query("SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END " +
             "FROM Stay s " +
             "WHERE s.room = :room " +
@@ -23,6 +23,7 @@ public interface StayRepository extends JpaRepository<Stay, Long> {
             "AND s.checkOut > :checkIn")
     boolean existsReservationConflict(Room room, Instant checkIn, Instant checkOut);
 
+    // Consulta para encontrar a estadia de maior valor de um cliente
     @Query("SELECT s " +
             "FROM Stay s " +
             "WHERE s.client.id = :clientId " +
@@ -38,7 +39,7 @@ public interface StayRepository extends JpaRepository<Stay, Long> {
             "ORDER BY s.id ASC LIMIT 1")
     Stay findLowestValueStayByClient(@Param("clientId") Long clientId);
 
-    // Mantenha a consulta original para o valor total (não precisa mudar)
+    //Consulta para somar o total de estadia
     @Query("SELECT SUM(s.room.price) " +
             "FROM Stay s " +
             "WHERE s.client.id = :clientId")

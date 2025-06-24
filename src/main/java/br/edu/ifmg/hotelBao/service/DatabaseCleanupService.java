@@ -41,7 +41,7 @@ public class DatabaseCleanupService {
         entityManager.createQuery("DELETE FROM Client").executeUpdate();
         entityManager.createQuery("DELETE FROM Room").executeUpdate();
         entityManager.createQuery("DELETE FROM Role").executeUpdate();
-        // (opcional) reset de sequências, se precisar
+        // reset de sequências
         try {
             entityManager.createNativeQuery("ALTER TABLE client ALTER COLUMN id RESTART WITH 1").executeUpdate();
             entityManager.createNativeQuery("ALTER TABLE room ALTER COLUMN id RESTART WITH 1").executeUpdate();

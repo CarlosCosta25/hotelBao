@@ -27,8 +27,8 @@ public class ClientResource {
 
 
     @Operation(
-            description ="Get all client ",
-            summary = "Get all client (ROLE_CLIENT OR ROLE_ADMIN)",
+            description ="Buscar todos os usuários",
+            summary = "Busca todos usuários que são ADMIN ou CLIENT",
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized"),
@@ -45,8 +45,8 @@ public class ClientResource {
 
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(
-            description ="Get a client",
-            summary = "Get a client (ROLE_CLIENT OR ROLE_ADMIN)",
+            description ="Buscar cliente por ID",
+            summary = "Busca Cliente por ID, sendo ADMIN ou CLIENT",
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK"),
                     @ApiResponse(responseCode = "404", description = "Not Found"),
@@ -62,8 +62,8 @@ public class ClientResource {
 
     @PostMapping( produces = "application/json")
     @Operation(
-            description ="Create a new client",
-            summary = "Create a new client",
+            description ="Cria um novo cliente",
+            summary = "Cria um novo cliente",
             responses = {
                     @ApiResponse(description = "Created", responseCode = "201"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -84,8 +84,8 @@ public class ClientResource {
 
     @PutMapping(value = "/{id}", produces = "application/json")
     @Operation(
-            description ="Update a client",
-            summary = "Update a client",
+            description ="Atualizar cliente",
+            summary = "Atualiza o cliente com o ID digitado",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -103,8 +103,8 @@ public class ClientResource {
 
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @Operation(
-            description ="Delete a client",
-            summary = "Delete a client",
+            description ="Deleta cliente",
+            summary = "Deleta o cliente com o ID digitado",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -121,8 +121,8 @@ public class ClientResource {
 
     @PostMapping(value = "/signup", produces = "application/json")
     @Operation(
-            description = "Sign up a client",
-            summary = "Client self-register",
+            description = "Registrar cliente",
+            summary = "Registrar um cliente",
             responses = {
                     @ApiResponse(description = "Created", responseCode = "201"),
                     @ApiResponse(description = "Bad Request", responseCode = "400")
@@ -139,8 +139,8 @@ public class ClientResource {
 
 
     @Operation(
-            description = "Get all clients",
-            summary = "Get all clients (ROLE_CLIENT)",
+            description = "Busca todos usuários clientes",
+            summary = "Busca todos usuários que são clientes",
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized"),
@@ -148,14 +148,15 @@ public class ClientResource {
             }
     )
     @GetMapping(value = "/clients", produces = "application/json")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
     public ResponseEntity<Page<ClientDTO>> getAllClients(Pageable pageable) {
         return ResponseEntity.ok(clientService.findAllClients(pageable));
     }
 
 
     @Operation(
-            description = "Get a client by ID",
-            summary = "Get a client by ID (ROLE_CLIENT)",
+            description = "Busca usuário cliente pelo ID",
+            summary = "Busca usuário cliente pelo ID",
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK"),
                     @ApiResponse(responseCode = "404", description = "Not Found"),
@@ -164,7 +165,7 @@ public class ClientResource {
             }
     )
     @GetMapping(value = "/clients/{id}", produces = "application/json")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_CLIENT', 'ROLE_ADMIN')")
     public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
         return ResponseEntity.ok(clientService.findClientById(id));
     }

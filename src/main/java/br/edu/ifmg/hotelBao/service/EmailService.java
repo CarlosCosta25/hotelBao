@@ -16,7 +16,7 @@ public class EmailService {
     private String emailFrom;
 
     @Autowired
-    private JavaMailSender mailSender; // Ignora o erro e vai na fé que vai dar certo
+    private JavaMailSender mailSender;
 
     public void sendEmail(EmailDTO dto) {
         try {

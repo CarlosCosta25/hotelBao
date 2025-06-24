@@ -27,8 +27,8 @@ public class RoomResource {
     RoomService roomService;
 
     @Operation(
-            description ="Get all room",
-            summary = "Get all room",
+            description ="Buscar todos quartos",
+            summary = "Buscar todos quartos",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200")
             }
@@ -41,8 +41,8 @@ public class RoomResource {
 
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(
-            description ="Get a room",
-            summary = "Get a room",
+            description ="Buscar quarto por ID",
+            summary = "Buscar quarto por ID",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200"),
                     @ApiResponse(description = "Not Found", responseCode = "404")
@@ -55,8 +55,8 @@ public class RoomResource {
 
     @PostMapping(produces = "application/json")
     @Operation(
-            description ="Create a new room",
-            summary = "Create a new room",
+            description ="Criar novo quarto",
+            summary = "Criar novo quarto",
             responses = {
                     @ApiResponse(description = "Created", responseCode = "201"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -76,8 +76,8 @@ public class RoomResource {
     }
 
     @Operation(
-            description ="Update a room",
-            summary = "Update a room",
+            description ="Atualizar quarto pelo ID",
+            summary = "Atualizar quarto pelo ID",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200"),
                     @ApiResponse(description = "Not Found", responseCode = "404"),
@@ -94,8 +94,8 @@ public class RoomResource {
     }
 
     @Operation(
-            description ="Delete a room",
-            summary = "Delete a room",
+            description ="Deletar quarto pelo ID",
+            summary = "Deletar quarto pelo ID",
             responses = {
                     @ApiResponse(description = "OK", responseCode = "200"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),

@@ -43,8 +43,6 @@ public class Stay {
 
 
 
-
-
     public Stay(Client client, Room room, Instant checkIn) {
         this.client = client;
         this.room = room;

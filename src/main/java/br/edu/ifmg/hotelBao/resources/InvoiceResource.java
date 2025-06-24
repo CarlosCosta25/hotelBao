@@ -20,7 +20,8 @@ public class InvoiceResource {
     private InvoiceService invoiceService;
 
     @Operation(
-            summary = "Generate invoice for a client",
+            description = "Gera nota fiscal do cliente",
+            summary = "Gera nota fiscal de todas estadias do cliente",
             responses = {
                     @ApiResponse(responseCode = "200", description = "OK"),
                     @ApiResponse(responseCode = "404", description = "Not Found or no stays for client")
