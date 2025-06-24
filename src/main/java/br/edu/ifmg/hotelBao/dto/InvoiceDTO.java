@@ -12,20 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoiceDTO {
-    private boolean success;
-    private String message;
-    private String clientName;
-    private String email;
-    private String phone;
-    private List<StayInfo> stays;
+    private ClientDTO client;
+    private List<StayDTO> stays;
     private double total;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class StayInfo {
-        private String description;
-        private double price;
-    }
 }

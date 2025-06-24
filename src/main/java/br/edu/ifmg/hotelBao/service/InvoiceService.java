@@ -1,7 +1,8 @@
 package br.edu.ifmg.hotelBao.service;
 
+import br.edu.ifmg.hotelBao.dto.ClientDTO;
 import br.edu.ifmg.hotelBao.dto.InvoiceDTO;
-import br.edu.ifmg.hotelBao.dto.InvoiceDTO.StayInfo;
+import br.edu.ifmg.hotelBao.dto.StayDTO;
 import br.edu.ifmg.hotelBao.entitie.Client;
 import br.edu.ifmg.hotelBao.entitie.Stay;
 import br.edu.ifmg.hotelBao.repository.ClientRepository;
@@ -26,42 +27,29 @@ public class InvoiceService {
     @Transactional(readOnly = true)
     public InvoiceDTO generateInvoice(Long clientId) {
         Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ResourceNotFound("Cliente com id: " + clientId + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFound("Client id " + clientId + " not found"));
 
         List<Stay> stays = stayRepository.findByClientId(clientId);
-
         if (stays.isEmpty()) {
-            return new InvoiceDTO(false,
-                    "Não existem estadias para o cliente: " + client.getName(),
-                    null, null, null,
-                    null, 0.0);
+            throw new IllegalArgumentException("No stays found for client");
         }
 
-        boolean hasIncomplete = stays.stream()
-                .anyMatch(s -> s.getRoom().getDescription() == null
-                        || s.getRoom().getDescription().trim().isEmpty()
-                        || s.getRoom().getPrice() <= 0);
-        if (hasIncomplete) {
-            return new InvoiceDTO(false,
-                    "Existem quartos sem descrição ou valor informados. A operação deve ser abortada.",
-                    null, null, null,
-                    null, 0.0);
+        boolean incomplete = stays.stream()
+                .anyMatch(s -> s.getRoom().getDescription() == null || s.getRoom().getPrice() <= 0);
+        if (incomplete) {
+            throw new IllegalArgumentException("Incomplete stay data detected");
         }
 
-        List<StayInfo> stayInfos = stays.stream()
-                .map(s -> new StayInfo(s.getRoom().getDescription(), s.getRoom().getPrice()))
+        // Convert to DTOs
+        List<StayDTO> stayDTOs = stays.stream()
+                .map(StayDTO::new)
                 .collect(Collectors.toList());
 
-        double total = stayInfos.stream()
-                .mapToDouble(StayInfo::getPrice)
+        // Calculate total using room price from DTO
+        double total = stayDTOs.stream()
+                .mapToDouble(dto -> dto.getRoom().getPrice())
                 .sum();
 
-        return new InvoiceDTO(true,
-                "NOTA FISCAL",
-                client.getName(),
-                client.getEmail(),
-                client.getPhone(),
-                stayInfos,
-                total);
+        return new InvoiceDTO(new ClientDTO(client), stayDTOs, total);
     }
 }
