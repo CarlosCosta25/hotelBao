@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Service
@@ -47,6 +49,8 @@ public class RoomService {
     public RoomDTO insert(RoomDTO dto) {
         Room entity = new Room();
         copyDTOtoEntity(dto, entity);
+        entity.setCreatedAt(Instant.now());
+        entity.setUpdatedAt(Instant.now());
         entity = roomRepository.save(entity);
         return new RoomDTO(entity)
                 .add(linkTo(methodOn(RoomResource.class).getById(entity.getId())).withRel("Get a room"))
@@ -60,6 +64,7 @@ public class RoomService {
         try {
             Room entity = roomRepository.getReferenceById(id);
             copyDTOtoEntity(dto, entity);
+            entity.setUpdatedAt(Instant.now());
             return new RoomDTO(entity)
                     .add(linkTo(methodOn(RoomResource.class).getById(entity.getId())).withSelfRel())
                     .add(linkTo(methodOn(RoomResource.class).getAll(null)).withRel("All rooms"))

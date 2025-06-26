@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +70,8 @@ public class ClientService implements UserDetailsService {
     public ClientDTO insert(ClientInsertDTO dto) {
         Client entity = new Client();
         this.copyDtoToEntity(dto, entity);
+        entity.setCreatedAt(Instant.now());
+        entity.setUpdatedAt(Instant.now());
         // Codificar a senha ANTES de salvar
         entity.setPassword(passwordEncoder.encode(dto.getPhone()));
 
@@ -89,7 +92,7 @@ public class ClientService implements UserDetailsService {
 
             // 2) copia todos os campos mutáveis do DTO para a entidade
             copyDtoToEntity(dto, entity);
-
+            entity.setUpdatedAt(Instant.now());
             // 3) salva e atualiza a referência
             entity = clientRepository.save(entity);
 
