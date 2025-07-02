@@ -71,7 +71,6 @@ public class ClientService implements UserDetailsService {
         Client entity = new Client();
         this.copyDtoToEntity(dto, entity);
         entity.setCreatedAt(Instant.now());
-        entity.setUpdatedAt(Instant.now());
         // Codificar a senha ANTES de salvar
         entity.setPassword(passwordEncoder.encode(dto.getPhone()));
 
@@ -87,16 +86,12 @@ public class ClientService implements UserDetailsService {
     @Transactional
     public ClientDTO update(Long id, ClientDTO dto) {
         try {
-            // 1) busca a entidade gerenciada
             Client entity = clientRepository.getReferenceById(id);
 
-            // 2) copia todos os campos mutáveis do DTO para a entidade
             copyDtoToEntity(dto, entity);
             entity.setUpdatedAt(Instant.now());
-            // 3) salva e atualiza a referência
             entity = clientRepository.save(entity);
 
-            // 4) monta e retorna o DTO HATEOAS
             return new ClientDTO(entity)
                     .add(linkTo(methodOn(ClientResource.class).getById(entity.getId())).withRel("Find client by id"))
                     .add(linkTo(methodOn(ClientResource.class).getAll(null)).withRel("All clients"))
@@ -124,16 +119,16 @@ public class ClientService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        List<ClientDetailsProjection> resultado = clientRepository.searchUserAndRoleByUsername(username);
-        if (resultado.isEmpty()) {
+        ClientDetailsProjection resultado = clientRepository.searchUserAndRoleByUsername(username);
+        if (resultado== null) {
             throw new UsernameNotFoundException("Usuario nao encontrado");
         }
         Client client = new Client();
-        client.setLogin(resultado.get(0).getUsername());
-        client.setPassword(resultado.get(0).getPassword());
-        for(ClientDetailsProjection entity : resultado) {
-            client.addRole(new Role(entity.getRoleId(), entity.getAuthority()));
-        }
+        client.setLogin(resultado.getUsername());
+        client.setPassword(resultado.getPassword());
+
+            client.addRole(new Role(resultado.getRoleId(), resultado.getAuthority()));
+
         return client;
     }
 

@@ -28,7 +28,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
         WHERE u.login = :username
     """
     )
-    List<ClientDetailsProjection> searchUserAndRoleByUsername(String username);
+    ClientDetailsProjection searchUserAndRoleByUsername(String username);
 
     @Query("SELECT DISTINCT c FROM Client c JOIN c.roles r WHERE r.authority = 'ROLE_CLIENT'")
     Page<Client> findAllClients(Pageable pageable);
