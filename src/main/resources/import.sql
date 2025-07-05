@@ -30,4 +30,5 @@ INSERT INTO role (id, authority) VALUES (2, 'ROLE_ADMIN');
 INSERT INTO client_role (client_id, role_id) VALUES (1, 2); -- João Silva -> ROLE_USER
 INSERT INTO client_role (client_id, role_id) VALUES (2, 1); -- Maria Santos -> ROLE_USER
 INSERT INTO client_role (client_id, role_id) VALUES (3, 2); -- Pedro Oliveira -> ROLE_ADMIN
+INSERT INTO client_role (client_id, role_id) VALUES (1, 2); -- João Silva -> ROLE_ADMIN
 

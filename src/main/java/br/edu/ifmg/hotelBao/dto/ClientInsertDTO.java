@@ -1,4 +1,5 @@
 package br.edu.ifmg.hotelBao.dto;
+import br.edu.ifmg.hotelBao.entitie.Client;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -12,5 +13,10 @@ public class ClientInsertDTO extends ClientDTO{
 
     public ClientInsertDTO() {
         super();
+    }
+
+    public ClientInsertDTO(Client client){
+        super(client);
+        this.password = client.getPassword();
     }
 }
