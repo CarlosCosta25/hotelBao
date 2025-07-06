@@ -24,4 +24,10 @@ public class ClientFactory {
 
         return new ClientInsertDTO(createClient());
     }
+
+    public static Client createClientWithId(Long id) {
+        Client client = createClient();
+        client.setId(id);
+        return client;
+    }
 }

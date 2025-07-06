@@ -16,4 +16,9 @@ public class RoomFactory {
     public static RoomDTO createRoomDTO() {
         return new RoomDTO(createRoom());
     }
+    public static Room createRoomWithId(@Positive Long id) {
+        Room room = createRoom();
+        room.setId(id);
+        return room;
+    }
 }
