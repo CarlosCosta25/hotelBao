@@ -162,7 +162,7 @@ public class ClientResourceIT {
         String jsonBody = objectMapper.writeValueAsString(dto);
 
         ResultActions result = mockMvc.perform(
-                put("/clients/{id}", nonExistingId) // Usa o 'nonExistingId'
+                put("/user/{id}", nonExistingId) // Usa o 'nonExistingId'
                         .header("Authorization", "Bearer " + adminToken)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -179,7 +179,7 @@ public class ClientResourceIT {
         String jsonBody = objectMapper.writeValueAsString(dto);
 
         ResultActions result = mockMvc.perform(
-                put("/clients/{id}", existingId)
+                put("/user/{id}", existingId)
                         .header("Authorization", "Bearer " + adminToken)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
