@@ -24,7 +24,7 @@ public class Client implements UserDetails {
     @Column(nullable = false,length = 50)
     private String name;
 
-    @Column(nullable = false)
+    @Column(unique = true,nullable = false)
     private String email;
 
     @Column(nullable = false)
