@@ -1,0 +1,1058 @@
+{
+	"info": {
+		"_postman_id": "d52797ab-8aa4-4a43-ba98-a59137942786",
+		"name": "HotelBAO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39998152"
+	},
+	"item": [
+		{
+			"name": "Stay",
+			"item": [
+				{
+					"name": "Insert Stay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"checkIn\": \"2028-01-15T17:00:00Z\",\r\n    \"client\": {\r\n        \"id\": 1,\r\n        \"name\": \"João Silva\",\r\n        \"email\": \"lucasgontijo111@gmail.com\",\r\n        \"phone\": \"11999999999\",\r\n        \"login\": \"lucas\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 2,\r\n                \"authority\": \"ROLE_ADMIN\"\r\n            }\r\n        ]\r\n    },\r\n        \"room\": {\r\n            \"id\": 1,\r\n            \"description\": \"Quarto Standard 101 - Confortável e bem localizado\",\r\n            \"price\": 150.0,\r\n            \"imageUrl\": \"https://exemplo.com/quarto101.jpg\"\r\n        }\r\n}\r\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/stay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Stay",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/stay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById Stay",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/stay/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stay",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Stay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"checkIn\": \"2029-01-15T17:00:00Z\",\r\n    \"client\": {\r\n        \"id\": 1,\r\n        \"name\": \"João Silva\",\r\n        \"email\": \"lucasgontijo111@gmail.com\",\r\n        \"phone\": \"11999999999\",\r\n        \"login\": \"lucas\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 2,\r\n                \"authority\": \"ROLE_ADMIN\"\r\n            }\r\n        ]\r\n    },\r\n        \"room\": {\r\n            \"id\": 1,\r\n            \"description\": \"Quarto Standard 101 - Confortável e bem localizado\",\r\n            \"price\": 150.0,\r\n            \"imageUrl\": \"https://exemplo.com/quarto101.jpg\"\r\n        }\r\n}\r\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/stay/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stay",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Stay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/stay/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stay",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All  Stay Client",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/stay/client/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"stay",
+								"client",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Highest Stay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/stay/client/1/highest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"stay",
+								"client",
+								"1",
+								"highest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lowest Stay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/stay/client/1/lowest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"stay",
+								"client",
+								"1",
+								"lowest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Total Stay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/stay/client/1/total",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"stay",
+								"client",
+								"1",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/invoice/client/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"invoice",
+								"client",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "Get All Client",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById Client",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/clients/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"clients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "Insert Room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"Quarto Medio\",\r\n    \"price\":8000.98,\r\n    \"imageUrl\":\"/home/fotos/foto1.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Room",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById Room",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/room/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"Quarto Standard 1001\",\r\n    \"price\":500.98,\r\n    \"imageUrl\":\"/home/fotos/foto1.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/room/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/room/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code >= 200 && pm.response.code < 300) {\r",
+									"    // faz o parse do JSON automaticamente\r",
+									"    const body = pm.response.json();\r",
+									"\r",
+									"    // armazena o token na variável de ambiente \"token\"\r",
+									"    pm.environment.set(\"token\", body.access_token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{client-secret}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{client-id}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/oauth2/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Carlos Silva\",\r\n  \"email\": \"Carlos@example.com\",\r\n  \"phone\": \"31999999999\",\r\n  \"login\": \"joao\",\r\n  \"password\": \"lucas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/signup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Token New Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"lucasgontijo111@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/recover-token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"recover-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"9c723679-d803-43c9-b396-bd04840a05f6\",\r\n    \"newPassword\": \"98765\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/new-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"new-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ALL DATA",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/admin/database/clean-all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"database",
+								"clean-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clientId\": {\r\n    \"id\": 1,\r\n    \"name\": \"Pedro Simão\",\r\n    \"email\": \"pedroSi@teste.com\",\r\n    \"phone\": \"(37)7654345\"\r\n  },\r\n  \"roomId\": {\r\n    \"id\": 1,\r\n    \"description\": \"Quarto Grande\",\r\n    \"price\": 200.98,\r\n    \"imageUrl\": \"/home/fotos/foto1.png\"\r\n  },\r\n  \"checkIn\": \"2025-06-27T12:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Pedro Lucas\",\r\n    \"email\":\"emailatualizado@gmail.com\",\r\n    \"phone\":\"(37)7654345\",\r\n    \"login\":\"Carlos\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Admin User\",\r\n  \"email\": \"admin@example.com\",\r\n  \"login\": \"adminuser\",\r\n  \"phone\": \"31977777777\",\r\n  \"roles\":[\r\n    {\r\n        \"id\":1,\r\n        \"authority\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
